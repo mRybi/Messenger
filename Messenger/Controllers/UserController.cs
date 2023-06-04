@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Messenger.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UserController : Controller
     {
         private readonly ILogger<WeatherForecastController> _logger;

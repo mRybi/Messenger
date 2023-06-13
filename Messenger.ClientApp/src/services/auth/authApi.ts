@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { RegisterUserCommand } from './authModels';
+import { AuthenticateUserCommand, RegisterUserCommand, UserInfo } from './authModels';
+import { setUser } from '../../slices/userSlice';
 
 export const authApi = createApi({
     reducerPath: 'authApi', //https://localhost:44390/User/register
@@ -12,7 +13,20 @@ export const authApi = createApi({
                 body,
             }),
         }),
+        authenticate: builder.mutation<UserInfo, AuthenticateUserCommand>({
+            query: (body) => ({
+                url: "authenticate",
+                method: 'POST',
+                body,
+            }),
+            async onQueryStarted(args, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled;
+                    dispatch(setUser(data));
+                } catch (error) { }
+            },
+        }),
     }),
 })
 
-export const { useRegisterMutation } = authApi;
+export const { useRegisterMutation, useAuthenticateMutation } = authApi;

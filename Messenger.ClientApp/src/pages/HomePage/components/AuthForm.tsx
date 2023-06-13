@@ -1,37 +1,54 @@
 import { FC, useCallback, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { BsGithub, BsGoogle  } from 'react-icons/bs';
-import { useRegisterMutation } from '../../../services/auth/authApi';
+import { useAuthenticateMutation, useRegisterMutation } from '../../../services/auth/authApi';
 import { AuthSocialButton, Button, Input } from '.';
+import { useLocation, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 type Variant = "LOGIN" | "REGISTER";
 
 export const AuthForm: FC = () => {
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [registerUser, result] = useRegisterMutation();
+  const [registerUser] = useRegisterMutation();
+  const [loginUser] = useAuthenticateMutation();
   
   const toggleVariant = useCallback(() => setVariant(variant === 'LOGIN' ? "REGISTER" : "LOGIN"), [variant]);
 
-  const {register, handleSubmit, formState: {errors}} = useForm<FieldValues>({
+  const {register, handleSubmit, reset, formState: {errors}} = useForm<FieldValues>({
     defaultValues: {
       name: "",
       email: "",
       password: ""
     }
   });
+  
+  let navigate = useNavigate();
+  let location = useLocation();
+  let redirectBackTo = location.state?.from?.pathname || "/conversations";
 
-  const onSubmit: SubmitHandler<FieldValues> = ({name, email, password}) => {
+  const onSubmit: SubmitHandler<FieldValues> = async ({name, email, password}) => {
     setIsLoading(true);
 
     if(variant === "REGISTER") {
-      registerUser({name, email, password});
-      //succes/error info + redirect somewhere
-    }
+      await registerUser({name, email, password}).then(() => {
+        toast.success('Successfully registered! Now you can login :)', {
+          position: "bottom-center"
+        });
+        toggleVariant();
+        setIsLoading(false);
+        // reset();
+      })
+    }      
 
     if(variant === "LOGIN") {
-      // logowanie po token itp
-    }
+      await loginUser({email, password}).then(() => {
+        toast.success('Successfully logged!', {
+          position: "bottom-center"
+        });
+        navigate(redirectBackTo, { replace: true })})
+    }     
   }
 
   return (

@@ -5,6 +5,8 @@ import reportWebVitals from './reportWebVitals';
 import { store } from './store';
 import { Provider } from 'react-redux';
 import { App } from './App';
+import { BrowserRouter } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,7 +14,10 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <React.StrictMode>
-      <App />
+      <BrowserRouter>
+        <App />
+        <Toaster/>
+      </BrowserRouter>
     </React.StrictMode>
   </Provider>
 );

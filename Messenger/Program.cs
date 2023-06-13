@@ -7,6 +7,9 @@ using AutoMapper;
 using MediatR;
 using FluentValidation.AspNetCore;
 using Messenger.App.Validators;
+using Messenger.App.Authorization;
+using Messenger.App.Services;
+using Messenger.App.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,10 +24,15 @@ builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsi
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+
 builder.Services.AddCors(policyBuilder =>
     policyBuilder.AddDefaultPolicy(policy =>
         policy.WithOrigins("*").AllowAnyHeader().AllowAnyHeader())
 );
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IJwtUtils, JwtUtils>();
 
 var app = builder.Build();
 app.UseCors();
@@ -37,7 +45,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+
+//// global error handler
+//app.UseMiddleware<ErrorHandlerMiddleware>();
+
+// custom jwt auth middleware
+app.UseMiddleware<JwtMiddleware>();
 
 app.MapControllers();
 

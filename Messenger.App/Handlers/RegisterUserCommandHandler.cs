@@ -26,16 +26,12 @@ namespace Messenger.App.Handlers
             user.CreatedAt = DateTime.Now;
             user.UpdatedAt = DateTime.Now;
             user.Image = "image";
-            // hash password
             user.HashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
-
-            //BCrypt.Net.BCrypt.Verify(request.Password, user.HashedPassword); //tak sie bedzie sprawdzac
 
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync(cancellationToken);
 
             return user.Id;
-
         }
 
     }

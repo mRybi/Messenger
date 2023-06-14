@@ -21,7 +21,7 @@ namespace Messenger.Api.Controllers
         [AllowAnonymous]
         [HttpPost("register")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
-        public async Task<ActionResult> Post(RegisterUserCommand command)
+        public async Task<ActionResult> Post(AddMessageCommand command)
         {
             var createdRecordId = await _mediator.Send(command);
 

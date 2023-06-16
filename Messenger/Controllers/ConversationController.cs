@@ -58,6 +58,16 @@ namespace Messenger.Api.Controllers
 
             return Ok();
         }
+
+        [AllowAnonymous]
+        [HttpGet("getMessages")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> Get([FromQuery] GetConversationMessagesQuery command)
+        {
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
+        }
     }
 }
 

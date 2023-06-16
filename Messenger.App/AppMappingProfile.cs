@@ -14,8 +14,9 @@ namespace Messenger.App
     {
         public AppMappingProfile()
         {
-            CreateMap<User, AddMessageCommand>().ReverseMap();
+            CreateMap<User, RegisterUserCommand>().ReverseMap();
             CreateMap<User, AuthenticateUserResponse>();
+            CreateMap<Conversation, GetConversationMessagesResponse>().ReverseMap();
         }
     }
 }

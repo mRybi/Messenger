@@ -38,6 +38,16 @@ namespace Messenger.Api.Controllers
             return Ok(response);
         }
 
+        [AllowAnonymous]
+        [HttpPost("logout")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> Logout(LogoutUserCommand command)
+        {
+            var response = await _mediator.Send(command);
+
+            return Ok(response);
+        }
+
         [HttpGet("GetAllUsers")]
         [ProducesResponseType(typeof(GetAllUsersResponse), StatusCodes.Status200OK)]
         public async Task<ActionResult> GetAllUsers()

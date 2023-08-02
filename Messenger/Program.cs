@@ -15,6 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<AppDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddStackExchangeRedisCache(options => {
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.InstanceName = "RedisJwtBlackList";
+});
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(AppMappingProfile)));
 builder.Services.AddAutoMapper(typeof(AppMappingProfile).Assembly);
 
@@ -33,6 +37,7 @@ builder.Services.AddCors(policyBuilder =>
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtUtils, JwtUtils>();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 app.UseCors();

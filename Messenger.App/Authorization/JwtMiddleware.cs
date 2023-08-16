@@ -40,7 +40,7 @@ namespace Messenger.App.Authorization
             if (userId is not null)
             {
                 // attach user to context on successful jwt validation
-                context.Items["User"] = userService.GetById(userId.Value);
+                context.Items["User"] = userService.GetById(userId);
             }
 
             await _next(context);

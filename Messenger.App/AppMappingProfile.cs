@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Messenger.App.Commands;
+using Messenger.App.Dtos;
 using Messenger.App.Responses;
 using Messenger.Persistence.EF.Models;
 using System;
@@ -16,7 +17,8 @@ namespace Messenger.App
         {
             CreateMap<User, RegisterUserCommand>().ReverseMap();
             CreateMap<User, AuthenticateUserResponse>();
-            CreateMap<Conversation, GetConversationMessagesResponse>().ReverseMap();
+            CreateMap<User, UserDto>();
+            CreateMap<Conversation, GetConversationsByUserIdResponse>().ReverseMap();
         }
     }
 }

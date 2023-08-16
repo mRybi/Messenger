@@ -10,6 +10,7 @@ using Messenger.App.Validators;
 using Messenger.App.Authorization;
 using Messenger.App.Services;
 using Messenger.App.Helpers;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,11 @@ builder.Services.AddStackExchangeRedisCache(options => {
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(AppMappingProfile)));
 builder.Services.AddAutoMapper(typeof(AppMappingProfile).Assembly);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
+
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -38,6 +43,8 @@ builder.Services.AddCors(policyBuilder =>
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtUtils, JwtUtils>();
 builder.Services.AddHttpContextAccessor();
+
+
 
 var app = builder.Build();
 app.UseCors();

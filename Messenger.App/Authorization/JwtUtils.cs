@@ -15,7 +15,7 @@ namespace Messenger.App.Authorization
     public interface IJwtUtils
     {
         public string GenerateToken(User user);
-        public int? ValidateToken(string token);
+        public string? ValidateToken(string token);
     }
 
     public class JwtUtils : IJwtUtils
@@ -42,7 +42,7 @@ namespace Messenger.App.Authorization
             return tokenHandler.WriteToken(token);
         }
 
-        public int? ValidateToken(string token)
+        public string? ValidateToken(string token)
         {
             if (token == null)
                 return null;
@@ -62,7 +62,7 @@ namespace Messenger.App.Authorization
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
+                var userId = jwtToken.Claims.First(x => x.Type == "id").Value;
 
                 // return user id from JWT token if validation successful
                 return userId;

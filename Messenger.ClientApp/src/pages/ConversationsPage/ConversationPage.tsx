@@ -1,5 +1,15 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
+import { useGetAllUsersQuery, useLogoutMutation } from "../../services/auth/authApi";
+import { Layout } from "../../components/Layout";
 
 export const ConversationPage: FC = () => {
-    return <h1>protected conversation page</h1>
+    return (
+        <>
+            <Layout>
+                <></>
+            </Layout>
+
+
+        </>
+    )
 }

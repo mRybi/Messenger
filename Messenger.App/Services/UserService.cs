@@ -1,12 +1,14 @@
 ﻿using Messenger.App.Commands;
 using Messenger.Persistence.EF;
 using Messenger.Persistence.EF.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Messenger.App.Services
 {
     public interface IUserService
     {
-        User GetById(int id);
+        User GetById(string id);
     }
 
     public class UserService : IUserService
@@ -16,9 +18,9 @@ namespace Messenger.App.Services
         {
             _context = context;
         }
-        public User GetById(int id)
+        public User GetById(string id)
         {
-            var user = _context.Users.Find(id);
+            var user = _context.Users.First(x => x.Id.ToString() == id);
             if (user == null) throw new KeyNotFoundException("User not found");
             return user;
         }

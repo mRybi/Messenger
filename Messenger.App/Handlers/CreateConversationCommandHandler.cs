@@ -14,12 +14,10 @@ namespace Messenger.App.Handlers
     public class CreateConversationCommandHandler : IRequestHandler<CreateConversationCommand, Guid>
     {
         private readonly AppDBContext _context;
-        private readonly IMapper _mapper;
 
-        public CreateConversationCommandHandler(AppDBContext context, IMapper mapper)
+        public CreateConversationCommandHandler(AppDBContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
         public async Task<Guid> Handle(CreateConversationCommand request, CancellationToken cancellationToken)
         {

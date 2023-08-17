@@ -32,11 +32,14 @@ namespace Messenger.App.Handlers
                 throw new Exception("There is no conversation with given Id");
             }
 
-            var newMessage = new Message();
-
             var sender = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.SenderId);
-            newMessage.Sender = sender;
+            if (sender == null)
+            {
+                throw new Exception("There is no user with given Id");
+            }
 
+            var newMessage = new Message();
+            newMessage.Sender = sender;
             newMessage.CreatedAt = DateTime.Now;
             newMessage.Body = request.Message;
             newMessage.Image = "image- not implemented";

@@ -5,15 +5,10 @@ using Messenger.App.Commands;
 using Messenger.App.Responses;
 using Messenger.Persistence.EF;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Messenger.App.Handlers
 {
-    internal class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCommand, AuthenticateUserResponse>
+    public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCommand, AuthenticateUserResponse>
     {
         private readonly AppDBContext _context;
         private readonly IMapper _mapper;

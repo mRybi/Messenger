@@ -13,7 +13,7 @@ namespace Messenger.Tests
         {
             var testConversations = new List<Conversation>();
 
-            testConversations.Add(new Conversation { Id = Guid.NewGuid(), Name = "Demo1", CreatedAt = DateTime.Now, IsGroup = false, LastMessageAt = DateTime.Now, Messages = getTestMessages(), Users = getTestUsers() });
+            testConversations.Add(new Conversation { Id = Guid.Parse("018ef796-9531-460e-85a9-025005cfa74b"), Name = "Demo1", CreatedAt = DateTime.Now, IsGroup = false, LastMessageAt = DateTime.Now, Messages = getTestMessages(), Users = getTestUsers() });
             testConversations.Add(new Conversation { Id = Guid.NewGuid(), Name = "Demo2", CreatedAt = DateTime.Now, IsGroup = false, LastMessageAt = DateTime.Now, Messages = getTestMessages(), Users = getTestUsers() });
             testConversations.Add(new Conversation { Id = Guid.NewGuid(), Name = "Demo3", CreatedAt = DateTime.Now, IsGroup = false, LastMessageAt = DateTime.Now, Messages = getTestMessages(), Users = getTestUsers() });
             testConversations.Add(new Conversation { Id = Guid.NewGuid(), Name = "Demo4", CreatedAt = DateTime.Now, IsGroup = false, LastMessageAt = DateTime.Now, Messages = getTestMessages(), Users = getTestUsers() });
@@ -28,8 +28,8 @@ namespace Messenger.Tests
             var users = new List<User>();
 
 
-            users.Add(new User { Id = Guid.NewGuid(), Name = "User1", Email = "user1@email.pl", EmailVerified = DateTime.Now, Image = "no img", CreatedAt = DateTime.Now, HashedPassword = null, Conversations = new List<Conversation>(), UpdatedAt = DateTime.Now });
-            users.Add(new User { Id = Guid.NewGuid(), Name = "User2", Email = "user2@email.pl", EmailVerified = DateTime.Now, Image = "no img", CreatedAt = DateTime.Now, HashedPassword = null, Conversations = new List<Conversation>(), UpdatedAt = DateTime.Now });
+            users.Add(new User { Id = Guid.Parse("7f6c1443-55b3-410a-aaa8-885b4d580b11"), Name = "User1", Email = "user1@email.pl", EmailVerified = DateTime.Now, Image = "no img", CreatedAt = DateTime.Now, HashedPassword = null, Conversations = new List<Conversation>(), UpdatedAt = DateTime.Now });
+            users.Add(new User { Id = Guid.NewGuid(), Name = "User2", Email = "user2@email.pl", EmailVerified = DateTime.Now, Image = "no img", CreatedAt = DateTime.Now, HashedPassword = "$2a$11$5I4RLGMpNzUc46FKTBqf2u.Y5qDRGuOLT1WWJMXSde6d87QbMs5Ee", Conversations = new List<Conversation>(), UpdatedAt = DateTime.Now });
             users.Add(new User { Id = Guid.NewGuid(), Name = "User3", Email = "user3@email.pl", EmailVerified = DateTime.Now, Image = "no img", CreatedAt = DateTime.Now, HashedPassword = null, Conversations = new List<Conversation>(), UpdatedAt = DateTime.Now });
             users.Add(new User { Id = Guid.NewGuid(), Name = "User4", Email = "user4@email.pl", EmailVerified = DateTime.Now, Image = "no img", CreatedAt = DateTime.Now, HashedPassword = null, Conversations = new List<Conversation>(), UpdatedAt = DateTime.Now });
             users.Add(new User { Id = Guid.NewGuid(), Name = "User5", Email = "user5@email.pl", EmailVerified = DateTime.Now, Image = "no img", CreatedAt = DateTime.Now, HashedPassword = null, Conversations = new List<Conversation>(), UpdatedAt = DateTime.Now });

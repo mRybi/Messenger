@@ -3,23 +3,16 @@ using MediatR;
 using Messenger.App.Commands;
 using Messenger.Persistence.EF;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Messenger.App.Handlers
 {
     public class RemoveUserFromConversationCommandHandler : IRequestHandler<RemoveUserFromConversationCommand, Unit>
     {
         private readonly AppDBContext _context;
-        private readonly IMapper _mapper;
 
-        public RemoveUserFromConversationCommandHandler(AppDBContext context, IMapper mapper)
+        public RemoveUserFromConversationCommandHandler(AppDBContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         public async Task<Unit> Handle(RemoveUserFromConversationCommand request, CancellationToken cancellationToken)

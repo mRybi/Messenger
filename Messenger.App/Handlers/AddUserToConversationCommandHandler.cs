@@ -9,12 +9,10 @@ namespace Messenger.App.Handlers
     public class AddUserToConversationCommandHandler : IRequestHandler<AddUserToConversationCommand, Unit>
     {
         private readonly AppDBContext _context;
-        private readonly IMapper _mapper;
 
-        public AddUserToConversationCommandHandler(AppDBContext context, IMapper mapper)
+        public AddUserToConversationCommandHandler(AppDBContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         public async Task<Unit> Handle(AddUserToConversationCommand request, CancellationToken cancellationToken)

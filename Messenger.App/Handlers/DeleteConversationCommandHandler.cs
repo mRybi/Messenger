@@ -9,12 +9,10 @@ namespace Messenger.App.Handlers
     public class DeleteConversationCommandHandler : IRequestHandler<DeleteConversationCommand, Unit>
     {
         private readonly AppDBContext _context;
-        private readonly IMapper _mapper;
 
-        public DeleteConversationCommandHandler(AppDBContext context, IMapper mapper)
+        public DeleteConversationCommandHandler(AppDBContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         public async Task<Unit> Handle(DeleteConversationCommand request, CancellationToken cancellationToken)

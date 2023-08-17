@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Messenger.App;
 using Messenger.App.Authorization;
 using Messenger.App.Commands;
 using Messenger.App.Dtos;
@@ -9,34 +10,26 @@ using Messenger.Persistence.EF;
 using Messenger.Persistence.EF.Models;
 using Moq;
 using Moq.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Messenger.Tests.UnitTests.Handlers
 {
     public class AuthenticateUserHandlerTests
     {
-        private readonly Mock<IMapper> _mapper;
+        private readonly IMapper _mapper;
         private readonly Mock<AppDBContext> _dbContext;
         private readonly Mock<IJwtUtils> _jwtUtils;
 
         public AuthenticateUserHandlerTests()
         {
-            _dbContext = new Mock<AppDBContext>();
-            _mapper = new Mock<IMapper>();
-            _jwtUtils = new Mock<IJwtUtils>();
+            var myProfile = new AppMappingProfile();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
+            var mapper = new Mapper(configuration);
 
-            _mapper.Setup(x => x.Map<User, AuthenticateUserResponse>(It.IsAny<User>())).Returns(new AuthenticateUserResponse());
+            _mapper = mapper;
+            _dbContext = new Mock<AppDBContext>();
+            _jwtUtils = new Mock<IJwtUtils>();
             _dbContext.Setup(x => x.Users).ReturnsDbSet(DataHelpers.getTestUsers());
 
-
-            //var stubUser = new User();
-            //var stubUserDto = new AuthenticateUserResponse();
-            //var mockMapper = new Mock<IMapper>();
-            //_mapper.Setup(mock => mock.Map<User>(It.IsAny<AuthenticateUserResponse>())).Returns(stubUser);
         }
 
         [Fact]
@@ -44,7 +37,7 @@ namespace Messenger.Tests.UnitTests.Handlers
         {
             AuthenticateUserCommand command = new AuthenticateUserCommand() { Email = "test@email.pl", Password = "testPAss" };
 
-            AuthenticateUserCommandHandler handler = new AuthenticateUserCommandHandler(_dbContext.Object, _mapper.Object, _jwtUtils.Object);
+            AuthenticateUserCommandHandler handler = new AuthenticateUserCommandHandler(_dbContext.Object, _mapper, _jwtUtils.Object);
 
             var act = async () => await handler.Handle(command, default);
             Exception exception = await Assert.ThrowsAsync<Exception>(act);
@@ -56,7 +49,7 @@ namespace Messenger.Tests.UnitTests.Handlers
         {
             AuthenticateUserCommand command = new AuthenticateUserCommand() { Email = "user2@email.pl", Password = "testPAss" };
 
-            AuthenticateUserCommandHandler handler = new AuthenticateUserCommandHandler(_dbContext.Object, _mapper.Object, _jwtUtils.Object);
+            AuthenticateUserCommandHandler handler = new AuthenticateUserCommandHandler(_dbContext.Object, _mapper, _jwtUtils.Object);
 
             var act = async () => await handler.Handle(command, default);
             Exception exception = await Assert.ThrowsAsync<Exception>(act);
@@ -71,13 +64,12 @@ namespace Messenger.Tests.UnitTests.Handlers
 
             AuthenticateUserCommand command = new AuthenticateUserCommand() { Email = correctEmail, Password = correctPassword };
 
-            AuthenticateUserCommandHandler handler = new AuthenticateUserCommandHandler(_dbContext.Object, _mapper.Object, _jwtUtils.Object);
+            AuthenticateUserCommandHandler handler = new AuthenticateUserCommandHandler(_dbContext.Object, _mapper, _jwtUtils.Object);
 
             var result = await handler.Handle(command, default);
 
             Assert.NotNull(result);
             Assert.Equal(correctEmail, result.Email);
-            //jak zmockowac Automappera???
         }
     }
 }

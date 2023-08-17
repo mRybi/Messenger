@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Messenger.App;
 using Messenger.App.Authorization;
 using Messenger.App.Commands;
 using Messenger.App.Handlers;
@@ -13,23 +14,19 @@ namespace Messenger.Tests.UnitTests.Handlers
 {
     public class RegisterUserHandlerTests
     {
-        private readonly Mock<IMapper> _mapper;
+        private readonly IMapper _mapper;
         private readonly Mock<AppDBContext> _dbContext;
         private readonly string existingUserEmail = "user1@email.pl";
 
         public RegisterUserHandlerTests()
         {
+            var myProfile = new AppMappingProfile();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
+            var mapper = new Mapper(configuration);
+
             _dbContext = new Mock<AppDBContext>();
-            _mapper = new Mock<IMapper>();
-
-            _mapper.Setup(x => x.Map<User, AuthenticateUserResponse>(It.IsAny<User>())).Returns(new AuthenticateUserResponse());
             _dbContext.Setup(x => x.Users).ReturnsDbSet(DataHelpers.getTestUsers());
-
-
-            //var stubUser = new User();
-            //var stubUserDto = new AuthenticateUserResponse();
-            //var mockMapper = new Mock<IMapper>();
-            //_mapper.Setup(mock => mock.Map<User>(It.IsAny<AuthenticateUserResponse>())).Returns(stubUser);
+            _mapper = mapper;
         }
 
         [Fact]
@@ -37,7 +34,7 @@ namespace Messenger.Tests.UnitTests.Handlers
         {
             RegisterUserCommand command = new RegisterUserCommand() { Email = existingUserEmail, Password = "pass", Name = "User1" };
 
-            RegisterUserCommandHandler handler = new RegisterUserCommandHandler(_dbContext.Object, _mapper.Object);
+            RegisterUserCommandHandler handler = new RegisterUserCommandHandler(_dbContext.Object, _mapper);
 
             var act = async () => await handler.Handle(command, default);
             ApplicationException exception = await Assert.ThrowsAsync<ApplicationException>(act);
@@ -49,7 +46,7 @@ namespace Messenger.Tests.UnitTests.Handlers
         {
             RegisterUserCommand command = new RegisterUserCommand() { Email = "new@email.pl", Password = "pass", Name = "User1" };
 
-            RegisterUserCommandHandler handler = new RegisterUserCommandHandler(_dbContext.Object, _mapper.Object);
+            RegisterUserCommandHandler handler = new RegisterUserCommandHandler(_dbContext.Object, _mapper);
 
             var result = await handler.Handle(command, default);
 

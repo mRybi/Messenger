@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Messenger.App.Commands;
 using Messenger.Persistence.EF;
 using Microsoft.EntityFrameworkCore;

@@ -7,14 +7,18 @@ namespace Messenger.Persistence.EF
 {
     public class AppDBContext : DbContext
     {
+        public AppDBContext()
+        {
+
+        }
         public AppDBContext(DbContextOptions options)
             : base(options)
         {
         }
 
-        public DbSet<Message> Messages { get; set; }
-        public DbSet<Conversation> Conversations { get; set; }
-        public DbSet<User> Users { get; set; }
+        public virtual DbSet<Message> Messages { get; set; }
+        public virtual DbSet<Conversation> Conversations { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

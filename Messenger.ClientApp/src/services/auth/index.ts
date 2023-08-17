@@ -1,2 +1,2 @@
-export type { RegisterUserCommand } from "./authModels";
+export type { RegisterUserCommand, UserInfo } from "./authModels";
 export { authApi } from "./authApi";

@@ -1,4 +1,4 @@
 export * from "./AuthForm";
 export * from "./AuthSocialButton";
-export * from "./Button";
-export * from "./Input";
+export * from "../../../components/Button";
+export * from "../../../components/Input";

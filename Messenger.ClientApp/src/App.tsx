@@ -1,8 +1,19 @@
 import { FC } from 'react';
 import { HomePage } from './pages';
+import {
+  Routes,
+  Route,
+} from "react-router-dom";
+import { ConversationPage } from './pages/ConversationsPage';
+import { PrivateRoute } from './components/PrivateRoute';
 
 export const App: FC = () => {
-  //add router for pages!! now we have only one so no need
-  return <HomePage/>
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/conversations" element={<PrivateRoute><ConversationPage /></PrivateRoute>} />
+
+    </Routes>
+  )
 }
 
